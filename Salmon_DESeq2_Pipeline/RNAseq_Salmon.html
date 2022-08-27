@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="author" content="MarkdownViewer++" />
+        <title>RNAseq_Salmon.txt</title>
+        <style type="text/css">
+            
+/* Avoid page breaks inside the most common attributes, especially for exports (i.e. PDF) */
+td, h1, h2, h3, h4, h5, p, ul, ol, li {
+    page-break-inside: avoid; 
+}
+
+        </style>
+      </head>
+    <body>
+        <h3 id="rna-seq-data-processing-and-analysis-with-salmon">RNA-seq data processing and analysis with Salmon</h3>
+<h4 id="projectdata-aging-astrocyte-transcriptome-paper-doi-10.1016j.celrep.2017.12.039">Project/Data: Aging Astrocyte Transcriptome Paper (doi: 10.1016/j.celrep.2017.12.039)</h4>
+<h4 id="written-by-jb">Written by: JB</h4>
+<h4 id="last-updated-08262022">Last Updated: 08/26/2022</h4>
+<p>This doc contains the commands and explanations for the analysis of bulk RNA-sequencing using Salmon up to DEG analysis using R/Rstudio</p>
+<p>A few notes before gettting stared:</p>
+<ol>
+<li><p>All data and analysis should be completed in the <code>/data</code> directory of our Lab Server
+due to space constraints in your individual home directories</p>
+</li>
+<li><p>Keep your files organized - this will make your life a whole lot easier. I recommend something like this:</p>
+<ul>
+<li>/data/projectname/rawdata
+<ul>
+<li>store your raw fasta files here</li>
+<li>also consider storing a list of your sample names here</li>
+</ul>
+</li>
+<li>/data/projectname/salmon/
+<ul>
+<li>make subdirectories for the output files</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Review the Linux/Bash links on the Github Page for assistance with navigating the server</p>
+</li>
+<li><p>Review <a href="https://combine-lab.github.io/salmon/getting_started/">Salmon Documentation</a></p>
+</li>
+</ol>
+<h4 id="download-data-fastq-files.below-are-two-examples-of-how-to-download-data">Download Data (fastq files). Below are two examples of how to download data:</h4>
+<pre><code>wget http://link/to/data/.fastq.gz
+
+wget -m ftp://username:password@link/to/data
+
+wget -r -nH -nd -np http://link/to/data/.fastqz
+
+from UCSD: wget -m ftp://username:password@link/to/data/.fastq.gz&gt;
+</code></pre>
+<h4 id="install-conda-other-packages-and-set-up-environment">Install Conda, other packages, and set up environment</h4>
+<p>-You can find information about Anaconda and Miniconda <a href="https://docs.conda.io/en/latest/miniconda.html">here</a>
+-Right click on the download button and click &quot;copy link address&quot;. Paste this link after wget command (see example below)</p>
+<pre><code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+bash Miniconda3-latest-Linux-x86_64.sh
+</code></pre>
+<p>It will ask you a bunch of questions. Make sure that you use the defaults for all of them (press enter for all). Start
+pressing ENTER through all the license agreements. Type 'yes' when it asks if you agree to everything. One of the
+important questions it will ask during installation is if you want to add this to the PATH variable in your ~/.bashrc
+Check that the anaconda bin was added to your path by looking at your bashrc file:</p>
+<pre><code>less ~/.bashrc
+</code></pre>
+<p>There should be a line in there that looks something like this located BELOW the line &quot;#User specific aliases and
+functions&quot;:</p>
+<pre><code>export PATH=/home/USERNAME/miniconda3/bin:$PATH
+</code></pre>
+<p>Then install necessary packges. You may need to make and activate a new conda environment in order to install new packages.
+More information about environment can be found <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html">here</a>
+More information about Anaconda installation can be found <a href="https://docs.anaconda.com/anaconda/user-guide/tasks/install-packages/">here</a></p>
+<pre><code>conda install -c bioconda salmon
+</code></pre>
+<p>Remember to activate conda environment that has STAR installed</p>
+<pre><code>conda activate [environment name]
+conda activate salmon
+conda info --envs #to see environments
+</code></pre>
+<h4 id="building-salmon-reference-index">Building Salmon reference index:</h4>
+<p>You need reference genome (fasta files) of transcriptome (cDNA)
+These can be found on <a href="https://hgdownload.soe.ucsc.edu/downloads.html#mouse">UCSC Genome Browser</a> and <a href="https://www.gencodegenes.org/mouse/">Gencode</a>
+Right click on the files and click &quot;copy link address&quot;. Download these in a directory named /references/name_of_reference_w_version_ID.</p>
+<pre><code>mkdir /data/jburgado_data/salmon/mm39_index
+cd /data/jburgado_data/salmon/mm39_index
+wget https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M30/gencode.vM30.transcripts.fa.gz
+salmon index -t Mus_musculus.GRCm39.cdna.all.fa.gz -i mm39_index
+</code></pre>
+<h4 id="running-salmon">Running Salmon</h4>
+<pre><code>ls | grep .*R1&gt; R1_names.txt # create file names for R1 and R2 files separately. This is done in the directory that contains your raw data
+ls | grep .*R2&gt; R2_names.txt
+
+mkdir /data/jburgado_data/salmon/outputs/AgingAstrocyteTranscritpome_output #create directory for the output files
+vi salmon_AgingAstrocyteTranscriptome.sh #create script
+</code></pre>
+<h5 id="the-script-should-look-something-like-this">The script should look something like this:</h5>
+<p f1 f2>#!/bin/bash
+while read -r f1 f2; do
+salmon quant -i /data/jburgado_data/salmon/mm39_index -l A <br />
+-1 &lt;(gunzip -c /data/jburgado_data/rawdata/AgingAstrocyteTranscriptome/$) <br />
+-2 &lt;(gunzip -c /data/jburgado_data/rawdata/AgingAstrocyteTranscriptome/$) <br />
+-p 8 --validateMappings <br />
+-o /data/jburgado_data/salmon/outputs/AgingAstrocyteTranscriptome_output/$f1
+done &lt; &lt;(paste R1_names.txt R2_names.txt)</p>
+<h4 id="youre-done">You're done!</h4>
+<p>Transfer all of the output files (easiest way is via FileZilla) to your local computer</p>
+
+    </body>
+</html>
+            
