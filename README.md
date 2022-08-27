@@ -29,11 +29,10 @@ The Allen Lab has a server dedicated to bioinformatics - this server can be used
 
 
 ## In-house tutorials/notes
+> For information on setting up and using R/RStudio, please check out our other [R and Statistics: The Basics Repo](https://github.com/MNL-A/r-statistics-basics)
 
 | Link | Description |
 | ----------- | ----------- |
-|[R 101 Part 1](https://github.com/MNL-A/r-statistics-basics/R101_Part1.html) | Getting Started with R; r-statistics-basics Repo|
-| [Synapse Quantification & Stats Tutorial](https://github.com/MNL-A/r-statistics-basics/SynapseQuant_Statistics.html) | Basic R tutorial for graphing and statistics r-statistics-basics Repo|
 | [RNAseq Pipeline w/ Salmon + DESeq2](/matt_aging_astrocyte_tutorial.html) | RNA-seq analysis in R after Salmon quasi-mapping |
 |[PDF: RNAseq Data Processing STAR & FeatureCounts](/RNAseq_STARFeatureCounts_Tau12mRibotagISH.pdf) | Command line notes/scripts for RNA-seq data processing with STAR and FeatureCounts using ISH data |
 |[HTML: RNAseq Data Processing STAR & FeatureCounts](/RNAseq_STARFeatureCounts_Tau12mRibotagISH.html) | HTML version of the above notes | 
