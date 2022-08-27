@@ -26,15 +26,14 @@ The Allen Lab has a server dedicated to bioinformatics - this server can be used
 - Backups of all raw data generated in the lab should be kept on the server.
 - The default directory is /home/username. Space is **extremely** limited in the /home directory. Please save all data and analysis files on /data
 - If you experience any issues on the lab server, please reach out to JB or LLB asap. 
-- 
 
 
 ## In-house tutorials/notes
 
 | Link | Description |
 | ----------- | ----------- |
-|[R 101 Part 1](/R_Statistics_Basics/R101_Part1.html) | Getting Started with R |
-| [Synapse Quantification & Stats Tutorial](/SynapseQuant_Statistics.html) | Basic R tutorial for graphing and statistics |
+|[R 101 Part 1](https://github.com/MNL-A/r-statistics-basics/R101_Part1.html) | Getting Started with R; r-statistics-basics Repo|
+| [Synapse Quantification & Stats Tutorial](https://github.com/MNL-A/r-statistics-basics/SynapseQuant_Statistics.html) | Basic R tutorial for graphing and statistics r-statistics-basics Repo|
 | [RNAseq Pipeline w/ Salmon + DESeq2](/matt_aging_astrocyte_tutorial.html) | RNA-seq analysis in R after Salmon quasi-mapping |
 |[PDF: RNAseq Data Processing STAR & FeatureCounts](/RNAseq_STARFeatureCounts_Tau12mRibotagISH.pdf) | Command line notes/scripts for RNA-seq data processing with STAR and FeatureCounts using ISH data |
 |[HTML: RNAseq Data Processing STAR & FeatureCounts](/RNAseq_STARFeatureCounts_Tau12mRibotagISH.html) | HTML version of the above notes | 
