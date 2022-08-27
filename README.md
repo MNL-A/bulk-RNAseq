@@ -6,16 +6,34 @@ This repo contains in-house tutorials and outside links primarily related to bul
 
 ## Getting Started
 
-The Allen Lab has a Server dedicated to bioinformatics - this server can be used to store and process your sequencing data. Backups of all raw data generated in the lab should be kept on the server. For information on how to access the server or for a brief training on navigating the linux command line, please reach out to JB or LLB. If you experience any issues on the lab server, please reach out to JB or LLB asap. 
+The Allen Lab has a server dedicated to bioinformatics - this server can be used to store and process your sequencing data. 
 
-R/Rstudio can be downloaded and used locally on your computer or through the lab server. For help accessing or downloading R/Rstudio, feel free to reach out to JB. 
+### How to Access
+
+•	Mac OsX users can use the Terminal to access and command the server
+•	Windows users, please download [putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) or setup Windows Subsystem for Linus (WSL, e.g. Ubuntu) 
+
+1)	Sign-in using Username (@mnla1.salk.edu) and password
+2) When you login for the first time you will be asked to create a new password. If you need to reset your password, contact JB
+3) In your command prompt, you will use the secure command and type: ssh username (including mnla1.salk.edu)
+4) Note: putty users you will select ssh client and then enter the address where prompted
+5) Note: You need to be connected to the Salk VPN to access the server 
+6) R/Rstudio can be downloaded and used locally on your computer or through the lab server. For help accessing or downloading R/Rstudio, feel free to reach out to JB.
+7) Download [FileZilla](https://filezilla-project.org/) to access Server files without using the command line
+
+### A few rules
+
+- Backups of all raw data generated in the lab should be kept on the server.
+- The default directory is /home/username. Space is **extremely** limited in the /home directory. Please save all data and analysis files on /data
+- If you experience any issues on the lab server, please reach out to JB or LLB asap. 
+- 
 
 
 ## In-house tutorials/notes
 
 | Link | Description |
 | ----------- | ----------- |
-|[R 101 Part 1](/R101_Part1.html) | Getting Started with R |
+|[R 101 Part 1](/R_Statistics_Basics/R101_Part1.html) | Getting Started with R |
 | [Synapse Quantification & Stats Tutorial](/SynapseQuant_Statistics.html) | Basic R tutorial for graphing and statistics |
 | [RNAseq Pipeline w/ Salmon + DESeq2](/matt_aging_astrocyte_tutorial.html) | RNA-seq analysis in R after Salmon quasi-mapping |
 |[PDF: RNAseq Data Processing STAR & FeatureCounts](/RNAseq_STARFeatureCounts_Tau12mRibotagISH.pdf) | Command line notes/scripts for RNA-seq data processing with STAR and FeatureCounts using ISH data |
