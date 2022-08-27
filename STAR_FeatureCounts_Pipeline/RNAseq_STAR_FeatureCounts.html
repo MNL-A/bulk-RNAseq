@@ -1,0 +1,167 @@
+<!DOCTYPE html []>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="MarkdownViewer++" />
+    <title>RNAseq_STAR_FeatureCounts.txt</title>
+    <style type="text/css">
+            
+/* Avoid page breaks inside the most common attributes, especially for exports (i.e. PDF) */
+td, h1, h2, h3, h4, h5, p, ul, ol, li {
+    page-break-inside: avoid; 
+}
+
+        </style>
+  </head>
+  <body>
+    <h3 id="rna-seq-data-processing-with-star-and-featurecounts">RNA-seq data processing with STAR and FeatureCounts</h3>
+    <h4 id="projectdata-aging-astrocyte-transcriptome-paper-add-citation">Project/Data: Aging Astrocyte Transcriptome Paper (add citation)</h4>
+    <h4 id="written-by-jb">Written by: JB</h4>
+    <h4 id="last-updated-08262022">Last Updated: 08/26/2022</h4>
+    <p>This doc contains the commands and explanations for the analysis of bulk RNA-sequencing using STAR and FeatureCounts up to DEG analysis using R/Rstudio</p>
+    <p>A few notes before gettting stared:</p>
+    <ol>
+      <li>
+        <p>All data and analysis should be completed in the <code>/data</code> directory of our Lab Server
+due to space constraints in your individual home directories</p>
+      </li>
+      <li>
+        <p>Keep your files organized - this will make your life a whole lot easier. I recommend something like this:</p>
+        <ul>
+          <li>/data/projectname/rawdata
+<ul><li>store your raw fasta files here</li><li>also consider storing a list of your sample names here</li></ul></li>
+          <li>/data/projectname/star/
+<ul><li>make subdirectories for alignments, sorted-bam files, etc.</li><li>keep your scripts in the main directory here</li></ul></li>
+        </ul>
+      </li>
+      <li>
+        <p>Review the Linux/Bash links on the Github Page for assistance with navigating the server</p>
+      </li>
+    </ol>
+    <h4 id="download-data-fastq-files.below-are-two-examples-of-how-to-download-data">Download Data (fastq files). Below are two examples of how to download data:</h4>
+    <pre>
+      <code>wget http://link/to/data/.fastq.gz
+
+wget -m ftp://username:password@link/to/data
+</code>
+    </pre>
+    <h4 id="install-conda-other-packages-and-set-up-environment">Install Conda, other packages, and set up environment</h4>
+    <p>-You can find information about Anaconda and Miniconda <a href="https://docs.conda.io/en/latest/miniconda.html">here</a>
+-Right click on the download button and click "copy link address". Paste this link after wget command (see example below)</p>
+    <pre>
+      <code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+bash Miniconda3-latest-Linux-x86_64.sh
+</code>
+    </pre>
+    <p>It will ask you a bunch of questions. Make sure that you use the defaults for all of them (press enter for all). Start
+pressing ENTER through all the license agreements. Type 'yes' when it asks if you agree to everything. One of the
+important questions it will ask during installation is if you want to add this to the PATH variable in your ~/.bashrc
+Check that the anaconda bin was added to your path by looking at your bashrc file:</p>
+    <pre>
+      <code>less ~/.bashrc
+</code>
+    </pre>
+    <p>There should be a line in there that looks something like this located BELOW the line "#User specific aliases and
+functions":</p>
+    <pre>
+      <code>export PATH=/home/USERNAME/miniconda3/bin:$PATH
+</code>
+    </pre>
+    <p>Then install necessary packges. You may need to make and activate a new conda environment in order to install new packages.
+More information about environment can be found <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html">here</a>
+More information about Anaconda installation can be found <a href="https://docs.anaconda.com/anaconda/user-guide/tasks/install-packages/">here</a></p>
+    <pre>
+      <code>conda install -c bioconda STAR fastqc subread
+</code>
+    </pre>
+    <p>Remember to activate conda environment that has STAR installed</p>
+    <pre>
+      <code>conda activate [environment name]
+conda info --envs #to see environments
+</code>
+    </pre>
+    <h4 id="building-star-reference-index">Building STAR reference index:</h4>
+    <p>You need reference genome (fasta files) and gene annotation (GTF).
+These can be found on <a href="https://hgdownload.soe.ucsc.edu/downloads.html#mouse">UCSC Genome Browser</a> and <a href="https://www.gencodegenes.org/mouse/">Gencode</a>
+Right click on the files and click "copy link address". Download these in a directory named /references/name_of_reference_w_version_ID. Unzip and merge fasta files into one file.</p>
+    <pre>
+      <code>cd /data/jburgado_data/STAR/references/mm39
+wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz
+tar -xvf chromFa.tar.gz
+cat *.fa &gt; mm39.fasta
+wget https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_39/gencode.v39.annotation.gtf.gz
+gunzip gencode.vM28.annotation.gtf.gz
+</code>
+    </pre>
+    <p>Create STAR reference index</p>
+    <pre>
+      <code>cd /data/jburgado_data/STAR/references/mm39/star_genome_index
+
+STAR --runThreadN 8 \
+--runMode genomeGenerate \
+--genomeDir /data/jburgado_data/STAR/references/mm39/star_genome_index/ \
+--genomeFastaFiles /data/jburgado_data/STAR/references/mm39/mm39.fasta \
+--sjdbGTFfile /data/jburgado_data/STAR/references/mm39/gencode.vM28.annotation.gtf
+</code>
+    </pre>
+    <h4 id="mapping-your-samples-create-a-script-to-loop-through-your-samples.the-example-below-is-for-paired-samples-which-are-split-into-to-txt-files-namesr1-and-namesr2">Mapping your samples: Create a script to loop through your samples. The example below is for paired samples which are split into to txt files (namesR1 and namesR2).</h4>
+    <pre>
+      <code>vi star.sh #to create script
+</code>
+    </pre>
+    <p>Your script should look something like this:</p>
+    <pre>
+      <code>#!/bin/bash
+
+while read -r f1 f2; do
+    STAR --readFilesCommand zcat \
+    --genomeDir /data/Isabel/jburgado_data/references/mm39/star_genome_index \
+    --runThreadN 8 \
+    --readFilesIn /data/jburgado_data/raw_data/AgingAstrocyteTranscriptome/${f1} /data/jburgado_data/raw_data/AgingAstrocyteTranscriptome/${f2} \
+    --outFileNamePrefix /data/Isabel/STAR/AgingAstrocyteTranscriptome/Alignments/$f1 \
+    --genomeLoad LoadAndKeep
+done &lt; &lt;(paste namesR1.txt namesR2.txt)
+</code>
+    </pre>
+    <p>To run the script, first change the permissions and then use nohup to run without interruption. It's best to run 1-2 samples first to ensure everything is working correctly.</p>
+    <pre>
+      <code>chmod 777 star.sh
+nohup ./star.sh &amp;
+tail -f nohup.out
+</code>
+    </pre>
+    <p>To create files with the sample names (for paired-end)</p>
+    <pre>
+      <code>ls | grep .*R1 &gt; namesR1.txt
+ls | grep .*R2 &gt; namesR2.txt
+</code>
+    </pre>
+    <h4 id="convert-sam-files-to-sorted-bam-files">Convert sam files to sorted bam files</h4>
+    <pre>
+      <code>ls | grep .*sam &gt; sam_names.txt
+mkdir /data/jburgado_data/STAR/AgingAstrocyteTranscriptome/sorted_bam
+
+while read -r i; do
+    samtools view -bS /data/Isabel/STAR/AgingAstrocyteTranscriptome/Alignments/$i | samtools sort -o /data/jburgado_data/STAR/AgingAstrocyteTranscriptome/sorted_bam/$i
+done &lt; sam_names.txt
+</code>
+    </pre>
+    <h4 id="summarize-counts-with-featurecounts-from-the-subread-package">Summarize counts with FeatureCounts from the <a href="http://subread.sourceforge.net/">Subread package</a></h4>
+    <pre>
+      <code>featureCounts -T 16 \
+-a /data/jburgado_data/STAR/references/mm39/gencode.vM28.annotation.gtf \
+-p \
+-s 2 \
+-g gene_id \
+-o /data/jburgado_data/STAR/AgingAstrocyteTranscriptome/counts.txt \
+/data/jburgado_data/STAR/AgingAstrocyteTranscriptome/sorted_bam/*.sam 
+</code>
+    </pre>
+    <p>Download counts.txt to your local computer or use RStudio on server for DEG analysis. Use FileZilla or command line (from local computer)</p>
+    <pre>
+      <code>scp -r YourUsername@mnla1.salk.edu:~/path/to/output/files /path/to/local/directory
+</code>
+    </pre>
+  </body>
+</html>
