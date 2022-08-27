@@ -29,7 +29,7 @@ The Allen Lab has a server dedicated to bioinformatics - this server can be used
 
 
 ## In-house tutorials/notes
-> For information on setting up and using R/RStudio, please check out our other [R and Statistics: The Basics Repo](https://github.com/MNL-A/r-statistics-basics)
+> For information on setting up and using R/RStudio, please check out our other [R and Statistics: The Basics - Repo](https://github.com/MNL-A/r-statistics-basics) or [R and Statistics: The Basics - Webpage Verion](https://mnl-a.github.io/r-statistics-basics/)
 
 | Link | Description |
 | ----------- | ----------- |
