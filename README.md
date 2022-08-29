@@ -10,8 +10,8 @@ The Allen Lab has a server dedicated to bioinformatics - this server can be used
 
 ### How to Access
 
-•	Mac OsX users can use the Terminal to access and command the server
-•	Windows users, please download [putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) or setup Windows Subsystem for Linus (WSL, e.g. Ubuntu) 
+- Mac OsX users can use the Terminal to access and command the server
+- Windows users, please download [putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) or setup Windows Subsystem for Linus (WSL, e.g. Ubuntu) 
 
 1)	Sign-in using Username (@mnla1.salk.edu) and password
 2) When you login for the first time you will be asked to create a new password. If you need to reset your password, contact JB
@@ -33,7 +33,8 @@ The Allen Lab has a server dedicated to bioinformatics - this server can be used
 
 | Link | Description |
 | ----------- | ----------- |
-| [RNAseq Pipeline w/ Salmon + DESeq2](/bulk-RNAseq-tutorials/Salmon_DESeq2_Pipeline/AgingAstrocyteTranscritptome_Tutorial.html) | RNA-seq analysis in R after Salmon quasi-mapping |
+|[Mapping with Salmon](Salmon_DESeq2_Pipeline/RNAseq_Salmon.html| Bash Commands and Scripts|
+| [RNAseq Pipeline w/ Salmon + DESeq2](Salmon_DESeq2_Pipeline/AgingAstrocyteTranscritptome_Tutorial.html) | RNA-seq analysis in R after Salmon quasi-mapping |
 |[PDF: RNAseq Data Processing STAR & FeatureCounts](/RNAseq_STARFeatureCounts_Tau12mRibotagISH.pdf) | Command line notes/scripts for RNA-seq data processing with STAR and FeatureCounts using ISH data |
 |[HTML: RNAseq Data Processing STAR & FeatureCounts](/RNAseq_STARFeatureCounts_Tau12mRibotagISH.html) | HTML version of the above notes | 
 
