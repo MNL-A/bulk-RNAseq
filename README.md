@@ -33,7 +33,7 @@ The Allen Lab has a server dedicated to bioinformatics - this server can be used
 
 | Link | Description |
 | ----------- | ----------- |
-| [RNAseq Pipeline w/ Salmon + DESeq2](/matt_aging_astrocyte_tutorial.html) | RNA-seq analysis in R after Salmon quasi-mapping |
+| [RNAseq Pipeline w/ Salmon + DESeq2](/Salmon_DESeq2_Pipeline/AgingAstrocyteTranscritptome_Tutorial.html) | RNA-seq analysis in R after Salmon quasi-mapping |
 |[PDF: RNAseq Data Processing STAR & FeatureCounts](/RNAseq_STARFeatureCounts_Tau12mRibotagISH.pdf) | Command line notes/scripts for RNA-seq data processing with STAR and FeatureCounts using ISH data |
 |[HTML: RNAseq Data Processing STAR & FeatureCounts](/RNAseq_STARFeatureCounts_Tau12mRibotagISH.html) | HTML version of the above notes | 
 
