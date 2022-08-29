@@ -35,7 +35,7 @@ The Allen Lab has a server dedicated to bioinformatics - this server can be used
 | ----------- | ----------- |
 |[Mapping with Salmon](/Salmon_DESeq2_Pipeline/RNAseq_Salmon.html)| Bash Commands and Scripts related to Salmon pipeline|
 | [RNAseq Pipeline w/ Salmon + DESeq2](/Salmon_DESeq2_Pipeline/AgingAstrocyteTranscritptome_Tutorial.html) | RNA-seq analysis in R after Salmon quasi-mapping |
-|[RNAseq Data Processing STAR & FeatureCounts](/STAR_FeatureCountsDESeq2_Pipepline/RNAseq_STAR_FeatureCounts.html) |  bash commands and scripts for STAR and FeatureCounts Pipeline|
+|[RNAseq Data Processing STAR & FeatureCounts](/STAR_FeatureCounts_Pipepline/RNAseq_STAR_FeatureCounts.html) |  bash commands and scripts for STAR and FeatureCounts Pipeline|
 
 ## Below are some additional resources that I've found particularly useful
 
@@ -44,6 +44,8 @@ The Allen Lab has a server dedicated to bioinformatics - this server can be used
 [Cheatsheet 1](https://phoenixnap.com/kb/linux-commands-cheat-sheet#linux-commands-cheat-sheet-pdf)
 
 [Cheatsheet 2](https://www.guru99.com/linux-commands-cheat-sheet.html)
+
+[vi Text Editor Cheatsheet](https://ryanstutorials.net/linuxtutorial/cheatsheetvi.php)
 
 ### Salmon for RNA-seq
 
