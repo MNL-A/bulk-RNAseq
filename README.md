@@ -1,5 +1,6 @@
-# bulk-RNAseq
+# bulk-RNAseq Pipelines and Resources
 
+[View in Web Browser](https://mnl-a.github.io/bulk-RNAseq-tutorials/)
 ## Introduction
 
 This repo contains in-house tutorials and outside links primarily related to bulk RNA-seqencing data processing and analysis. Basic pipelines and default options are primarily used throughout the tutorials. Additional links to package and software documentation are provided in each tutorial - please be sure to review  these documents when completing your own analysis. A separate repo for sc/sn-RNAseq will be developed in the future. 
